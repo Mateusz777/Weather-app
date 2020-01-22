@@ -24,25 +24,13 @@ class App extends Component {
         })
     }
 
-    handleCitySubmit = (e) => {
-        e.preventDefault();
-        console.log("potwierdzony formularz");
-        // API call:
-        // http://api.openweathermap.org/data/2.5/forecast?id=524901&APPID={APIKEY}
+    componentDidUpdate(prevProps, prevState){
+        // console.log("poprzednia wartość" + prevState.value);
+        // console.log("aktualna wartość" + this.state.value);
+        if(this.state.value.length === 0) return;
+        if(prevState.value !== this.state.value) {
         const API = `http://api.openweathermap.org/data/2.5/weather?q=${this.state.value}&APPID=${API_URL}&units=metric`;
         fetch(API)
-                // .then(response => {
-                //     if(response.ok) {
-                //         return response
-                //     }
-                //     throw Error('Nie udało się')
-                // })
-                // .then(response => response.json() )
-                // .then(data => console.log(data))
-                // .catch(err => console.lof(err))
-
-                // a teraz w REACT:
-
             .then(response => {
                 // console.log(response);
                 if(response.ok) {
@@ -75,6 +63,7 @@ class App extends Component {
                     city: prevState.value
                 }))
             })
+        }
     }
 
     render () {
@@ -87,7 +76,7 @@ class App extends Component {
                 />
                 <Result weather={this.state} />
             </div>
-        )
+        );
     }
 }
 
